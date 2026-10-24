@@ -219,7 +219,11 @@ Mostra só um resumo: quantos encontrou, quantos estão sem site e quantos só t
 |---|---|
 | `chave da API não encontrada` | Computador: preencha o `.env`. Vercel: cadastre `GOOGLE_PLACES_API_KEY` e faça Redeploy. |
 | `login não configurado na Vercel` | Cadastre `SENHA_ACESSO` (12+) e `SEGREDO_SESSAO` (32+) e faça Redeploy. |
-| `o Upstash Redis não está conectado` | Faça o passo C5 e Redeploy. |
+| `Variável ausente: o Upstash Redis precisa de KV_REST_API_URL e KV_REST_API_TOKEN…` | Essas variáveis não chegaram ao deploy. A mensagem lista as variáveis parecidas que existem. Confira em **Settings → Environment Variables** se elas estão em **Production** e faça um novo deploy (passo C5). |
+| `Variável ausente: X não existe ou está vazia (Y existe)` | Só metade do par está cadastrada. Cadastre a que falta (URL e token andam juntos). |
+| `… precisa começar com https://` | Foi usada a URL `redis://` (KV_URL/REDIS_URL) no lugar da URL REST. Use `KV_REST_API_URL`. |
+| `Erro ao conectar: … recusou o token` | Token errado ou o token "somente leitura". Use `KV_REST_API_TOKEN`. |
+| `Erro ao conectar: não foi possível alcançar o endereço` | A URL REST está errada ou o banco foi apagado no Upstash. |
 | `Muitas senhas erradas` | Espere 15 minutos. |
 | `Sua sessão terminou` | Faça login de novo. Acontece depois de 30 dias ou se a senha ou o segredo mudarem. |
 | `erro 403` do Google | Confira se a Places API (New) está ativada, o faturamento ativo e a restrição da chave. |

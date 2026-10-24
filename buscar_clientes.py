@@ -78,7 +78,8 @@ class ErroBusca(Exception):
 
 def carregar_configuracao():
     """Lê a chave da API e os limites do arquivo .env (relido a cada chamada)."""
-    load_dotenv(PASTA_PROJETO / ".env", override=True)
+    if not armazenamento.na_vercel():  # na Vercel valem só as variáveis do painel
+        load_dotenv(PASTA_PROJETO / ".env", override=True)
     chave = os.getenv("GOOGLE_PLACES_API_KEY", "").strip()
     if not chave or chave == "cole_sua_chave_aqui":
         raise ErroConfiguracao(

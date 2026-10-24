@@ -43,7 +43,8 @@ def configuracao():
     o servidor aceita apenas acessos do próprio computador. Na Vercel ele é
     obrigatório: se faltar algo, tudo fica bloqueado.
     """
-    load_dotenv(armazenamento.PASTA_PROJETO / ".env", override=True)
+    if not armazenamento.na_vercel():  # na Vercel valem só as variáveis do painel
+        load_dotenv(armazenamento.PASTA_PROJETO / ".env", override=True)
     senha = os.getenv("SENHA_ACESSO", "")
     segredo = os.getenv("SEGREDO_SESSAO", "")
     if armazenamento.na_vercel():

@@ -76,6 +76,10 @@ def exigir_login(request: Request):
 @app.get("/api/sessao")
 def ver_sessao(request: Request):
     senha, segredo = configuracao_de_acesso()
+    try:
+        armazenamento.obter()  # só confere as variáveis do Redis (não conecta): avisa já na tela de login
+    except armazenamento.ErroArmazenamento as falha:
+        raise erro(503, str(falha))
     if senha is None:
         return {"login_necessario": False, "logado": True}
     logado = acesso.sessao_valida(request.cookies.get(acesso.NOME_COOKIE), senha, segredo)
