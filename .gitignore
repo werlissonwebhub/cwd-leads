@@ -1,0 +1,17 @@
+# Chave da API: NUNCA enviar para o GitHub
+.env
+.env.*
+!.env.example
+
+# Planilhas geradas (dados de clientes) e contador de uso
+resultados/
+*.xlsx
+uso_api.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Configuração local da Vercel (criada pelo comando vercel)
+.vercel/

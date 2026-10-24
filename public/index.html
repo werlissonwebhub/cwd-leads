@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="CWD Leads">
+  <title>CWD Leads</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+  <!-- Tela de login -->
+  <main class="login" id="tela-login" hidden>
+    <form class="login-cartao" id="form-login">
+      <img src="/cwd-logo.png" alt="" class="login-logo" width="64" height="64">
+      <h1 class="login-titulo"><strong>CWD</strong> Leads</h1>
+      <p class="login-texto">Digite a senha de acesso.</p>
+      <label class="campo">
+        <span class="campo-rotulo">Senha</span>
+        <input type="password" id="senha" autocomplete="current-password" required maxlength="200">
+      </label>
+      <button type="submit" class="botao-principal" id="botao-entrar">Entrar</button>
+      <p class="mensagem" id="mensagem-login" role="alert" hidden></p>
+    </form>
+  </main>
+
+  <!-- App -->
+  <div id="tela-app" hidden>
+    <header class="topo">
+      <div class="topo-conteudo">
+        <div class="marca">
+          <img src="/cwd-logo.png" alt="" class="marca-logo" width="34" height="34">
+          <span class="marca-nome"><strong>CWD</strong> Leads</span>
+        </div>
+        <div class="uso" id="uso" aria-live="polite">
+          <span class="uso-texto"><span class="rotulo-longo">Consultas hoje</span><span class="rotulo-curto">Hoje</span> <strong id="uso-hoje">–</strong> de <span id="uso-limite">–</span></span>
+          <span class="uso-trilho" aria-hidden="true"><span class="uso-barra" id="uso-barra"></span></span>
+        </div>
+      </div>
+      <button type="button" class="busca-compacta" id="busca-compacta" hidden>
+        <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="busca-compacta-texto" id="busca-compacta-texto"></span>
+        <span class="busca-compacta-acao">Nova busca</span>
+      </button>
+    </header>
+
+    <div class="aviso-instalar" id="aviso-instalar" hidden>
+      <img src="/favicon.png" alt="" width="32" height="32">
+      <p id="aviso-instalar-texto"></p>
+      <button type="button" class="botao-pequeno" id="botao-instalar" hidden>Instalar</button>
+      <button type="button" class="botao-fechar" id="fechar-aviso" aria-label="Fechar aviso">×</button>
+    </div>
+
+    <main class="conteudo">
+      <form class="busca" id="form-busca" autocomplete="off">
+        <label class="campo campo-nicho">
+          <span class="campo-rotulo">Nicho</span>
+          <input id="nicho" placeholder="psicólogo" required minlength="2" maxlength="80" enterkeyhint="next">
+        </label>
+        <label class="campo campo-cidade">
+          <span class="campo-rotulo">Cidade</span>
+          <input id="cidade" placeholder="Taguatinga, DF" required minlength="2" maxlength="80" enterkeyhint="search">
+        </label>
+        <label class="campo campo-curto">
+          <span class="campo-rotulo">Resultados</span>
+          <select id="paginas">
+            <option value="1">20 · 1 consulta</option>
+            <option value="2">40 · 2 consultas</option>
+            <option value="3">60 · 3 consultas</option>
+          </select>
+        </label>
+        <button type="submit" class="botao-principal" id="botao-buscar">Buscar</button>
+      </form>
+
+      <p class="mensagem" id="mensagem" role="alert" hidden></p>
+
+      <section class="inicio" id="inicio">
+        <img src="/cwd-logo.png" alt="" class="inicio-logo" width="72" height="72">
+        <h1>Encontre quem ainda não tem site</h1>
+        <p>Digite um nicho e uma cidade. Os resultados aparecem com quem não tem site primeiro.</p>
+        <ul class="dicas">
+          <li>Cada 20 resultados gastam 1 consulta do seu limite diário.</li>
+          <li>Os filtros não gastam consultas.</li>
+          <li>Nada fica guardado: recarregar a página apaga os resultados.</li>
+        </ul>
+      </section>
+
+      <section class="filtros" id="filtros" aria-label="Filtros" hidden>
+        <div class="chips" role="group" aria-label="Situação do site">
+          <button type="button" class="chip" data-filtro="sem_site" aria-pressed="false">Sem site</button>
+          <button type="button" class="chip" data-filtro="rede_social" aria-pressed="false">Só rede social</button>
+          <button type="button" class="chip chip-mais" id="botao-mais-filtros" aria-expanded="false" aria-controls="filtros-extras">Mais filtros</button>
+        </div>
+        <div class="filtros-extras" id="filtros-extras">
+          <label class="filtro">
+            <span>Nota mínima</span>
+            <select id="nota-min">
+              <option value="0">Qualquer</option>
+              <option value="3">3,0+</option>
+              <option value="3.5">3,5+</option>
+              <option value="4">4,0+</option>
+              <option value="4.5">4,5+</option>
+            </select>
+          </label>
+          <label class="filtro">
+            <span>Avaliações mínimas</span>
+            <input type="number" id="avaliacoes-min" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="filtro filtro-ordem">
+            <span>Ordenar</span>
+            <select id="ordem">
+              <option value="prioridade">Prioridade (sem site primeiro)</option>
+              <option value="avaliacoes">Mais avaliações</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="resultados" id="resultados" hidden>
+        <div class="resultados-topo">
+          <p class="resumo" id="resumo"></p>
+          <span class="atribuicao">
+            <img src="/google-maps-logo.svg" alt="Google Maps" width="98" height="18" translate="no">
+          </span>
+        </div>
+        <div class="lista" id="lista"></div>
+      </section>
+    </main>
+
+    <footer class="rodape" id="rodape" hidden>
+      <button type="button" class="botao-texto" id="botao-sair">Sair deste aparelho</button>
+    </footer>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
